@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Jogo do coelho</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<p> Quer jogar esse jogo feito pra você antes de ir pra proxima pagina ?</p> 
+<style> 
+body {
+margin: auto;
+font: 0.8em/120% Comic Sans MS,Verdana, Helvetica, sans-serif;
+text-shadow: 0.5px -0.5px #ffffaa;
+}
+
+a{color: #0171BB; text-decoration: none; }
+a:hover { color: #000; text-decoration: none; }
+.botao{position: relative;z-index:1200; border-radius:15px;padding:5px 25px 5px 25px;border: 1px solid #73AD21;background-color:yellow;font-size:35px; }
+
+#principal {
+  background-color: #fff;
+  margin: auto;
+  position: relative;
+  max-width: 500px;
+  max-width: 500px;
+  height: 300px;
+  border: 3px solid #73AD21;
+}
+
+#personagem3 {
+  z-index:1000;
+  width: 60px;
+  height: 100px;
+  margin: auto;
+  position: absolute;
+  top: 90px;
+  left:170px;
+  background: url('https://www.joemaster.com.br/tutoriais/wp-content/uploads/2020/07/como-fazer-um-jogo-de-pular-obstaculos-e-pontuacao-com-html-css-e-javascript.png');
+  background-position-x: 7px;
+  background-position-y: -30px;
+  border:0px solid #000;
+  animation: play1 .8s steps(6) infinite;
+}
+
+@keyframes play1 {
+    0% { background-position-x: -35px; }
+    100% { background-position-x: -578px; }
+}
+
+#chao {
+  width: 100%;
+  height: 112px;
+  margin: auto;
+  position: absolute;
+  bottom: 0px;
+  background: url('https://www.joemaster.com.br/tutoriais/wp-content/uploads/2020/07/como-fazer-um-jogo-de-pular-obstaculos-e-pontuacao-com-html-css-e-javascript-2.png')0px 0px;
+  animation: play2 2s steps(10) infinite;
+}
+
+@keyframes play2 {
+    100% { background-position-x: -112px; }
+}
+
+#obstaculo
+{
+background: url('https://www.joemaster.com.br/tutoriais/wp-content/uploads/2020/07/como-fazer-um-jogo-de-pular-obstaculos-e-pontuacao-com-html-css-e-javascript-parte-2.jpg');
+background-position-x: -113px;
+background-position-y: -108px;
+position: absolute;
+z-index:1009;
+left: 440px;
+top: 160px;
+width:40px;
+height:28px;
+border:0px solid #000;
+animation: play3 2s steps(10) infinite;
+}
+
+@keyframes play3 {
+    100% { left: 0px; }
+}
+
+#obstaculo2
+{
+background: url('https://www.joemaster.com.br/tutoriais/wp-content/uploads/2020/07/como-fazer-um-jogo-de-pular-obstaculos-e-pontuacao-com-html-css-e-javascript-parte-2.jpg');
+background-position-x: -155px;
+background-position-y: -75px;
+position: absolute;
+z-index:1009;
+left: 440px;
+top: 80px;
+width:33px;
+height:32px;
+border:0px solid #000;
+animation: play4 2s steps(10) infinite;
+}
+
+@keyframes play4 {
+    100% { left: 0px; }
+}
+
+</style> 
+</head>
+<body>
+<br>
+<div id="principal"> 
+  <center>
+    <div id="pontos" align="right" style="padding:3px;font-size:20px;"></div>
+    <div id="personagem3" onClick="pular();"></div>
+    <div id="obstaculo"></div>
+    <div id="obstaculo2"></div>
+    <div id="chao"  onClick="rasteira();"></div>
+    <a href="javascript:;;" onClick="rasteira();" style="left:0px;top:40%;position: absolute;font-size:20px;">&#128317;</a> 
+    <a href="javascript:;;" onClick="pular();" style="right:0px;top:40%;position: absolute;font-size:20px;">&#128316;</a> 
+  </center>
+</div>
+
+
+<script>
+//variaveis do jogo
+var jogar = false;
+var pontuacao = -1;
+var maximopontuacao = 0;
+
+//funcao que comeca o jogo
+function jogue(){jogar = true;}
+
+//essa funcão faz com que o personagem  pule rotacione um pouco e volte sua posicao normal depois de 500m
+function pular() {
+//aqui diz, mande o personagem para topo 0, de uma girada, e diminua o andar do personagem
+document.getElementById("personagem3").style.cssText = 'top:0px; transition: all 0.3s  ease-out; transform : rotate(-15deg);  animation: play1 1s steps(1) infinite;';
+//aqui diz, retorne personagem para o chao, desvire a  girada, e aumente o andar do personagem
+setTimeout(function(){document.getElementById("personagem3").style.cssText = 'transition: all 1s  ease-out;'; document.getElementById("personagem3").style.top = "90px";},500);
+}
+
+//essa funcão faz com que o personagem  escorregue rotacione um pouco e volte sua posicao normal depois de 500m
+function rasteira() {
+//aqui diz, mande o personagem para traz, de uma girada, e diminua o andar do personagem
+document.getElementById("personagem3").style.cssText = 'top:130px; transition: all 0.2s  ease-out; transform : rotate(-95deg);  animation: play1 3s steps(3) infinite;';
+//aqui diz, retorne personagem para o chao, desvire a  girada, e aumente o andar do personagem
+setTimeout(function(){document.getElementById("personagem3").style.cssText = 'transition: all 1s  ease-out;'; document.getElementById("personagem3").style.top = "90px";},500);
+}
+
+//essa função é se o alvo personagem, que apos uma comparacao, as div não podem ficar uma sobreposta a outra, se isso ocorre, quer dizer que teve uma colisao e acaba o jogo
+function alvo() {
+//aqui temos que difinir todas as variareis para fazer comparacao, tipo qual tamanho e eixos. (veja mais sobre offsetWidth, offsetHeight etc...)
+    var aw= document.getElementById("personagem3").offsetWidth;
+    var ah= document.getElementById("personagem3").offsetHeight;
+    var bw= document.getElementById("obstaculo").offsetWidth;
+    var bh= document.getElementById("obstaculo").offsetHeight;
+    var cw= document.getElementById("obstaculo2").offsetWidth;
+    var ch= document.getElementById("obstaculo2").offsetHeight;
+    var at= document.getElementById("personagem3").offsetTop;
+    var al= document.getElementById("personagem3").offsetLeft;
+    var bt= document.getElementById("obstaculo").offsetTop;
+    var bl= document.getElementById("obstaculo").offsetLeft;
+    var ct= document.getElementById("obstaculo2").offsetTop;
+    var cl= document.getElementById("obstaculo2").offsetLeft;
+    
+//essa e a programcao que compara os obstaculos, se uma div estiver sobreposta a outra, acaba o jogo chamando a funcão fim,
+    if(al < bl+bw && bl < al + aw && at < bt+bh && bt < at + ah) { fim();}
+    if(al < cl+cw && cl < al + aw && at < ct+ch && ct < at + ah) { fim();}
+
+}
+// essa e a funcao fim que se tiver a colisao das div, acaba o jogo
+function fim() {
+jogar = false;
+document.getElementById("obstaculo").style.display = 'none';
+document.getElementById("obstaculo2").style.display = 'none';
+if(pontuacao < 0){pontuacao = 0; document.getElementById("pontos").innerHTML = '<center><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><a href="javascript:;;"  class="botao"  onclick="javascript:jogue();">Play</a></center>';}
+else{ document.getElementById("pontos").innerHTML = '<div align=center style=font-size:25px><br><br>Pontos: '+pontuacao+' &nbsp;&nbsp;&nbsp;&nbsp; Máximo: '+maximopontuacao+'<h1>Game Over</h1></div><center><br><br><br><br><br><br><br><a href="javascript:;;"  class="botao"  onclick="javascript:jogue();">Play</a></center>';}
+}
+
+// agora e parte que fica acontecendo o jogo, ficamos chamando  varias vezes a funcao alvo() a cada 100m para fazer as comparacoes da colisao, se tiver a colisao acaba o jogo
+setInterval(function(){alvo()},100);
+
+//para ficar mais dificil o jogo, vamos sortear o obstaculo qual obstaculo vai aparecer a cada 2segundos
+function sortear()
+{
+
+//fazemos um sorteio entre 1 e 2, qual for sorteado, executa um dos if/else
+var nn = Math.floor(Math.random() * (2 - 1 + 1) + 1);
+    if(nn == 1){ 
+    document.getElementById("obstaculo").style.display = 'block';
+    document.getElementById("obstaculo2").style.display = 'none';
+    }
+    else
+    {
+    document.getElementById("obstaculo").style.display = 'none';
+    document.getElementById("obstaculo2").style.display = 'block';
+    }
+    
+//adicionamos 1 ponto se passar pelo obstaculo    
+pontuacao++;
+//se o maximo da pontuacao for menor que a pontuacao, deixamos ambas iguais
+if(maximopontuacao < pontuacao) { maximopontuacao = pontuacao;}
+document.getElementById("pontos").innerHTML = pontuacao;
+}
+
+// e depois ficamos chamando funcao sorter o obstaculo a cada 2s se a variavel jogar for verdadeira
+setInterval(function(){if(jogar){sortear();}},2000);
+
+//começamos o jogo, ja chamando a variavel fim pra zerar tudo.
+fim();
+</script>
+
+<a href="oi3.html">Já cansou? CLICA AQUI RUIVINHA</a>
+
+</body>
+</html>

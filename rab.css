@@ -1,0 +1,36 @@
+@charset "UTF-8";
+#obstaculo
+{
+background: url('itens2.png');
+background-position-x: -113px;
+background-position-y: -108px;
+position: absolute;
+z-index:1009;
+left: 440px;
+top: 170px;
+width:41px;
+height:28px;
+animation: play3 2s steps(10) infinite;
+}
+
+@keyframes play3 {
+    100% { left: 0px; }
+}
+
+#obstaculo2
+{
+background: url('itens2.png');
+background-position-x: -155px;
+background-position-y: -75px;
+position: absolute;
+z-index:1009;
+left: 440px;
+top: 100px;
+width:33px;
+height:32px;
+animation: play4 2s steps(10) infinite;
+}
+
+@keyframes play4 {
+    100% { left: 0px; }
+}
